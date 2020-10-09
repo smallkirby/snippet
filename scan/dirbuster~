@@ -1,0 +1,1 @@
+gobuster dir -u https://hogehoge.com -w ~/wordlist/directory-list-2.2-medium.txt --wildcard | tee ./dirbuster.txt

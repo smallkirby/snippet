@@ -1,0 +1,10 @@
+mkdir build
+cd ./build
+# When you compile glibc<=2.28, remove "--enable-cet"
+# When you compile glibc<=2.25, patch like below: /misc/regexp.c
+#  https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=commitdiff;h=388b4f1a02f3a801965028bbfcd48d905638b797
+../configure --prefix=/opt/glibc_hoge --enable-cet --disable-werror --without-selinux
+
+# When you compile glibc<=2.21, should specify "make LDFLAGS='-no-pie'"
+make -j8
+make install
