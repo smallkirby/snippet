@@ -26,3 +26,7 @@ echo "kernel config should support 9p_virtio"
 #   as below:
 #       console::respawn:-/bin/sh
 # sudo umount /tmp/tmpmnt
+
+## To mount shared folder
+# mkdir /tmp/shared
+# mount -t 9p -o trans=virtio testmnt /tmp/shared/ -oversion=9p2000.L,posixacl,msize=104857600,cache=loose
