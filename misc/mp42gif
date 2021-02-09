@@ -1,0 +1,2 @@
+#!/bin/sh
+ffmpeg -i <input> <output>
