@@ -1,0 +1,1 @@
+xrandr --output DP-2-3 --right-of eDP-1 --mode 1920x1080 --output DP-2-1 --left-of eDP-1 --mode 1360x768
