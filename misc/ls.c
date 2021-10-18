@@ -18,13 +18,13 @@ struct linux_dirent {
 };
 
 int ls(char *root) {
-	int fd;
-	if ((fd = open(root, O_RDONLY | O_DIRECTORY)) < 0) {
-		printf("failed to open %s.\n", root);
-		return -1;
-	}
+  int fd;
+  if ((fd = open(root, O_RDONLY | O_DIRECTORY)) < 0) {
+    printf("failed to open %s.\n", root);
+    return -1;
+  }
 
-	while (1==1) {
+  while (1==1) {
     char dbuf[0x100] = {0}, pbuf[0x100] = {0};
     int n;
     struct linux_dirent *dent = (struct linux_dirent*)dbuf;
@@ -35,22 +35,22 @@ int ls(char *root) {
     } else if (n == 0) 
       break;
 
-		while ((char*)dent < dbuf + n) {
-			snprintf(pbuf, sizeof(pbuf), "%s", dent->d_name);
-			printf("%s : ", pbuf);
-			for (int ix = 0; (char)pbuf[ix] != (char)0; ++ix)
-			{
-				printf("%02x", pbuf[ix]);
-			}
-			printf("\n");
-			dent = (void *)((char *)dent + dent->d_reclen);
-		}
-	}
+    while ((char*)dent < dbuf + n) {
+      snprintf(pbuf, sizeof(pbuf), "%s", dent->d_name);
+      printf("%s : ", pbuf);
+      for (int ix = 0; (char)pbuf[ix] != (char)0; ++ix)
+      {
+        printf("%02x", pbuf[ix]);
+      }
+      printf("\n");
+      dent = (void *)((char *)dent + dent->d_reclen);
+    }
+  }
 
-	return 0;
+  return 0;
 }
 
 int main(void) {
   ls("/");
-	return 0;
+  return 0;
 }
