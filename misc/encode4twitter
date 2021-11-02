@@ -8,4 +8,4 @@ FILENAME=$(basename -- $1)
 DIRNAME=$(dirname -- $1)
 echo $FILENAME
 echo $DIRNAME
-ffmpeg -i $DIRNAME/$FILENAME -pix_fmt yuv420p $DIRNAME/twitter_$FILENAME
+ffmpeg -i $DIRNAME/$FILENAME -pix_fmt yuv420p $DIRNAME/twitter_$FILENAME.gif

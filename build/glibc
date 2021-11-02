@@ -1,3 +1,4 @@
+#!/bin/bash
 mkdir build
 cd ./build
 # When you compile glibc<=2.28, remove "--enable-cet"

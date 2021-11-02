@@ -1,1 +1,0 @@
-nikto -host https://hogehoge.com -C all -useproxy http://localhost:8080/ | tee ./nikto-result.txt

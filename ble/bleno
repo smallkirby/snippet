@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ "$#" -ne 3 ]; then
+  echo "Usage: $1 <HCI NUM> node <your file>"
+else
+  sudo BLENO_HCI_DEVICE_ID=$1 node $3.js
+fi
