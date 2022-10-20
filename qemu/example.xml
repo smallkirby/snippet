@@ -1,0 +1,92 @@
+<!--
+  Example VM definition used by libvirt, with CPU-pinning
+
+  - Pin CPUs, which cannot be achieved by QEMU command line arguments
+  - Open VNC port at 5900
+
+  virsh create <xml> # destory VM definition when shutdown
+  or
+  virsh define <xml>
+  virsh start <xml>
+  virsh shutdown <xml>
+  virsh undefine <xml>
+-->
+
+<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+  <name>pin</name>
+  <memory unit='MiB'>12000</memory>
+  <currentMemory unit='MiB'>12000</currentMemory>
+  <vcpu placement='static'>10</vcpu>
+  <cputune>
+    <vcpupin vcpu='0' cpuset='0'/>
+    <vcpupin vcpu='1' cpuset='1'/>
+    <vcpupin vcpu='2' cpuset='2'/>
+    <vcpupin vcpu='3' cpuset='3'/>
+    <vcpupin vcpu='4' cpuset='4'/>
+    <vcpupin vcpu='5' cpuset='5'/>
+    <vcpupin vcpu='6' cpuset='6'/>
+    <vcpupin vcpu='7' cpuset='7'/>
+    <vcpupin vcpu='8' cpuset='8'/>
+    <vcpupin vcpu='9' cpuset='9'/>
+  </cputune>
+  <os>
+    <type arch='x86_64' machine='q35'>hvm</type>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+  </features>
+  <cpu mode='host-passthrough' check='none'>
+  </cpu>
+  <clock offset='utc'/>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>destroy</on_crash>
+
+  <devices>
+    <emulator>/home/hoge/qemu-system-x86_64</emulator>
+    <controller type='usb' index='0' model='qemu-xhci'>
+      <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
+    </controller>
+    <controller type='sata' index='0'>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x1f' function='0x2'/>
+    </controller>
+    <controller type='pci' index='0' model='pcie-root'/>
+    <controller type='pci' index='1' model='pcie-root-port'>
+      <model name='pcie-root-port'/>
+      <target chassis='1' port='0x8'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x0' multifunction='on'/>
+    </controller>
+    <controller type='pci' index='2' model='pcie-root-port'>
+      <model name='pcie-root-port'/>
+      <target chassis='2' port='0x9'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x1'/>
+    </controller>
+    <controller type='pci' index='3' model='pcie-root-port'>
+      <model name='pcie-root-port'/>
+      <target chassis='3' port='0xa'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x2'/>
+    </controller>
+    <input type='mouse' bus='ps2'/>
+    <input type='keyboard' bus='ps2'/>
+    <graphics type='vnc' port='5900' autoport='no' listen='127.0.0.1'>
+      <listen type='address' address='127.0.0.1'/>
+    </graphics>
+    <memballoon model='virtio'>
+      <address type='pci' domain='0x0000' bus='0x02' slot='0x00' function='0x0'/>
+    </memballoon>
+  </devices>
+
+  <qemu:commandline>
+    <qemu:arg value='-machine'/>
+    <qemu:arg value='q35,accel=kvm,kernel-irqchip=split'/>
+    <qemu:arg value='-net'/>
+    <qemu:arg value='none'/>
+    <qemu:arg value='-device'/>
+    <qemu:arg value='intel-iommu,intremap=on,caching-mode=on'/>
+    <qemu:arg value='-drive'/>
+    <qemu:arg value='file=/home/hoge/ubuntu_disk_working,format=qcow2'/>
+    <qemu:arg value='-device'/>
+    <qemu:arg value='vfio-pci,host=01:00.1,id=hoge'/>
+  </qemu:commandline>
+</domain>
