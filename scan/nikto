@@ -1,2 +1,8 @@
-nikto -host https://hogehoge.com -C all -useproxy http://localhost:8080/ -config /etc/nikto/config.txt | tee ./nikto-result.txt
+#!/bin/bash
 
+nikto \
+  -host https://hogehoge.com \
+  -C all \
+  -useproxy http://localhost:8080/ \
+  -config /etc/nikto/config.txt \
+  | tee ./nikto-result.txt
