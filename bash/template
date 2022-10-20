@@ -1,0 +1,40 @@
+#!/bin/bash
+
+set -eu # disallow unset variables and exit on error
+
+# Color defs
+C_RST="\033[0m"
+C_GREEN="\033[32m"
+C_RED="\033[31m"
+
+# Prompt defs
+LPLUS="${C_GREEN}+${C_RST}"
+LERR="${C_RED}[!]${C_RST}"
+
+# Trap handler to show line number
+function do_err() {
+  echo -e "\n${C_RED}[!]${C_RST} Error at line $1"
+}
+
+# Trap error signal
+trap 'do_err $LINENO' ERR
+
+# Check env
+function check_env() {
+  if ! [ -f .env ]; then
+    echo -e "${LERR} .env not found"
+    exit 1
+  fi
+
+  echo -en "${C_GREEN}[+]${C_RST} Checking env...: "
+  for e in \
+    "HOGE" \
+    "FUGA" \
+  ; do
+    if [ -z "$(eval echo \$"$e")" ]; then
+      echo -e "${C_RED}[!]${C_RST} Env $e not found"
+      exit 1
+    fi
+  done
+  echo -e "${C_GREEN}OK${C_RST}"
+}
